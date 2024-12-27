@@ -8,7 +8,7 @@ const SignIn = () => {
     <div className="instagram">
           <section>
             <div class="h-lvh flex  pt-16">
-              <div class="container mx-auto">
+              <div class="container mx-auto max-[608px]:px-5">
                 <div class="form-signin m-auto  border border-gray-300 rounded-md py-4 px-6 w-1/3 max-[768px]:w-1/2 max-[608px]:w-full max-[425px]:border-0 bg_bolar">
                   <form>
                     <div class="flex justify-center mb-4">
@@ -43,7 +43,7 @@ const SignIn = () => {
                 <div class="form-signin m-auto  border border-gray-300 rounded-md p-4 w-1/3 max-[768px]:w-1/2 max-[425px]:w-full mt-4 bg_bolar">
                   <p class="text-center text-sm">
                     Don't have an account ?
-                    <Link href="/signup" class="text-blue-500 hover:underline pl-1">
+                    <Link to="/signup" class="text-blue-500 hover:underline pl-1">
                       Sign Up
                     </Link>
                   </p>
