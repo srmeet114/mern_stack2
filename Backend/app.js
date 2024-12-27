@@ -1,9 +1,14 @@
 const express = require('express');
 const app = express();
-const port = 5000;
 const mongoose = require('mongoose');
-const mongoUrl = require('./keys');
+const dotenv = require('dotenv');
 const cors = require('cors');
+
+dotenv.config();
+
+const port = process.env.PORT || 5000;
+
+const mongoUrl = process.env.DB_CONNECT || mongoUrl;
 
 require('./models/model');
 app.use(express.json());

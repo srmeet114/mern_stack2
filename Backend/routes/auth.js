@@ -9,16 +9,16 @@ router.get("/", (req, res) => {
 });
 
 router.post("/signup", (req, res) => {
-  const { name, userName, email, password } = req.body;
-  if(!name || !userName || !email || !password){
+  const { name, userName, email, password } = req.body; // Destructuring the request body
+  if(!name || !userName || !email || !password){ // Checking all the fields are present
       return res.status(422).json({error:"Please add all the fields"})
   }
-  USER.findOne({ $or:[{email: email},{userName: userName}] }).then((savedUser) => {
+  USER.findOne({ $or:[{email: email},{userName: userName}] }).then((savedUser) => { // Checking email or username already exists
     if (savedUser) {
       return res.status(422).json({ error: "User already exists with that email or username" });
     }
 
-    bcrypt.hash(password, 12).then((hashedpassword) => {
+    bcrypt.hash(password, 12).then((hashedpassword) => { // Hashing the password
         const user = new USER({
             name,
             userName,
@@ -26,7 +26,7 @@ router.post("/signup", (req, res) => {
             password: hashedpassword,
           });
         
-          user.save().then((user) => {
+          user.save().then((user) => { // Saving the user to the database
               res.json({ message: "User Saved Successfully" });
             }).catch((err) => {
               console.log(err);
