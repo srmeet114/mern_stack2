@@ -3,16 +3,15 @@ import logo from "../../public/Img/logo.png";
 import { Link } from "react-router-dom";
 
 const SignUp = () => {
-
   useEffect(() => {
     fetchData();
   }, []);
 
-  const fetchData = async () =>{
-    const response = await fetch("http://localhost:5000/about");
+  const fetchData = async () => {
+    const response = await fetch("http://localhost:5000/");
     const data = await response.json();
     console.log(data);
-  }
+  };
 
   return (
     <div className="instagram">
@@ -45,7 +44,7 @@ const SignUp = () => {
                     className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                   <input
-                    type="password"
+                    type="text"
                     placeholder="Password"
                     className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
@@ -53,24 +52,12 @@ const SignUp = () => {
                 <div className="text-center text-sm text-gray-500 mt-2">
                   <p>
                     By signing up, you agree to our
-                    <a
-                      href="javascript:void(0)"
-                      className="text-blue-500 hover:underline pl-1"
-                    >
-                      Terms
+                    <a className="text-blue-500 hover:underline pl-1">Terms</a>,
+                    <a className="text-blue-500 hover:underline pr-1">
+                      Privacy Policy
                     </a>
-                    ,
-                    <a
-                      href="javascript:void(0)"
-                      className="text-blue-500 hover:underline pr-1"
-                    >
-                      Privacy Policy 
-                    </a>
-                     and 
-                    <a
-                      href="javascript:void(0)"
-                      className="text-blue-500 hover:underline pl-1"
-                    >
+                    and
+                    <a className="text-blue-500 hover:underline pl-1">
                       Cookies Policy
                     </a>
                     .
@@ -87,7 +74,10 @@ const SignUp = () => {
             <div className="form-signin m-auto  border border-gray-300 rounded-md p-4 w-1/3 max-[768px]:w-1/2 max-[425px]:w-full mt-4 bg_bolar">
               <p className="text-center text-sm text-gray-500 ">
                 Have an account ?
-                <Link to="/signin" className="text-blue-500 hover:underline pl-1">
+                <Link
+                  to="/signin"
+                  className="text-blue-500 hover:underline pl-1"
+                >
                   Sign In
                 </Link>
               </p>
