@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
+app.use(cors());
 
 dotenv.config();
 
@@ -23,7 +24,6 @@ mongoose.connection.on('error', () => {
     console.log('not connected to MongoDB');
 })
 
-app.use(cors());
 
 app.get('/', (req, res) => {
     res.send({ message: 'Hello World!' });

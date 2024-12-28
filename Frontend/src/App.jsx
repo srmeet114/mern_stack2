@@ -5,6 +5,7 @@ import Home from './Pages/Home'
 import SignUp from './Pages/SignUp'
 import SignIn from './Pages/SignIn'
 import Profie from './Pages/Profie'
+import { ToastContainer } from 'react-toastify';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         <Route path="/signin" element={<SignIn/>} />
         <Route path="/profile" element={<Profie/>} />
       </Routes>
+      <ToastContainer/>
     </BrowserRouter>
   )
 }
