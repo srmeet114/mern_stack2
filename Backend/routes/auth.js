@@ -5,7 +5,6 @@ const USER = mongoose.model("USER");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const dotenv = require('dotenv');
-const requireLogin = require("../middlewares/requireLogin");
 dotenv.config();
 const tokens = process.env.jwtSecret;
 
@@ -39,11 +38,6 @@ router.post("/signup", (req, res) => {
     });
   })
 });
-
-router.get("/createPost",requireLogin,(req,res)=>{
-  console.log("hiii");
-  
-})
 
 router.post("/signin",(req,res)=>{
     const {email,password}=req.body;

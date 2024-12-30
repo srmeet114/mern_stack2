@@ -44,10 +44,17 @@ export const postSignInData = async (data, reset, notify ,notifyerr ,navigate) =
     try {
         const res = await axios.post(`${URL}/signin`, data);
         notify(res.data.message);
+        localStorage.setItem('jwt', res.data.token);
         reset()
         navigate('/');
     }catch(err) {
         notifyerr(err.response.data.error);
         console.error(err);
     }
+}
+
+// post post Share
+
+export const postShare = async (data) => {
+
 }

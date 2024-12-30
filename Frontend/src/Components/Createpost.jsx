@@ -1,27 +1,93 @@
-import React from "react";
-import { CiImageOn } from "react-icons/ci";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-const Createpost = () => {
-  const loadFile = (event) => {
-    var output = document.getElementById("output");
-    output.src = URL.createObjectURL(event.target.files[0]);
-    output.onload = function () {
-      URL.revokeObjectURL(output.src); // free memory
-    };
+const CreatePost = () => {
+  const [body, setBody] = useState("");
+  const [image, setImage] = useState(null);
+  const [url, setUrl] = useState("");
+
+  useEffect(() => {
+    if (url) {
+      postShare();
+    }
+  }, [url]);
+
+  const uploadImage = () => {
+    if (!image) {
+      console.error("No image selected");
+      return;
+    }
+
+    const data = new FormData();
+    data.append("file", image);
+    data.append("upload_preset", "insta-clone");
+    data.append("cloud_name", "coldcloud");
+
+    fetch("https://api.cloudinary.com/v1_1/coldcloud/image/upload", {
+      method: "POST",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((data) => setUrl(data.url))
+      .catch((err) => console.error("Error uploading image:", err));
   };
+
+  const postShare = async () => {
+    try {
+      const response = await axios.post("http://localhost:5000/createPost", {
+        body,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        pic: url,
+      });
+      console.log("Post created successfully:", response.data);
+    } catch (err) {
+      console.error("Error creating post:", err);
+    }
+  };
+
+  const loadFile = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const output = document.getElementById("output");
+    output.src = URL.createObjectURL(file);
+    output.onload = () => {
+      URL.revokeObjectURL(output.src); // Free memory
+    };
+    setImage(file);
+  };
+
   return (
     <div className="pt-16 flex justify-center">
-      {/* header */}
       <div className="createPost max-w-[600px] my-[10px] border border-[rgb(173,173,173)] rounded-lg">
+        {/* Header */}
         <div className="post-header flex justify-between items-center px-[10px]">
           <p className="text-xl mx-4 font-semibold">Create New Post</p>
-          <button className="text-[#339ce3] font-semibold">Share</button>
+          <button onClick={uploadImage} className="text-[#339ce3] font-semibold">
+            Share
+          </button>
         </div>
+
+        {/* Image Upload */}
         <div className="main-div border-t border-[rgb(173,173,173)] py-2">
-            <img className="w-[300px] mt-[5px]" src="https://png.pngtree.com/png-clipart/20190920/original/pngtree-file-upload-icon-png-image_4646955.jpg" id="output" alt="" />
-          <input type="file" accept="image/*" onChange={(event)=>{loadFile(event)}} />
+          <img
+            className="w-[300px] mt-[5px]"
+            src="https://png.pngtree.com/png-clipart/20190920/original/pngtree-file-upload-icon-png-image_4646955.jpg"
+            id="output"
+            alt=""
+          />
+          <input
+            name="image"
+            className="mt-2"
+            type="file"
+            accept="image/*"
+            onChange={loadFile}
+          />
         </div>
-        {/* details */}
+
+        {/* Post Details */}
         <div className="details border-t border-[rgb(173,173,173)]">
           <div className="card-header flex items-center">
             <div className="card-pic">
@@ -34,8 +100,10 @@ const Createpost = () => {
             <p>Ramesh</p>
           </div>
           <textarea
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
             className="w-[90%] mx-3"
-            name="text"
+            type="text"
             placeholder="Write a caption..."
           ></textarea>
         </div>
@@ -44,4 +112,4 @@ const Createpost = () => {
   );
 };
 
-export default Createpost;
+export default CreatePost;
