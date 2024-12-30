@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const USER = mongoose.model("USER");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 router.get("/", (req, res) => {
   res.send({ message: "Hello World!" });

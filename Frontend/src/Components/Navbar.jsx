@@ -10,6 +10,7 @@ const Navbar = () => {
         <li className='px-[15px] py-[1px] font-medium'><Link to={'/signup'}>SignUp</Link></li>
         <li className='px-[15px] py-[1px] font-medium'><Link to={'/Signin'}>SignIn</Link></li>
         <li className='px-[15px] py-[1px] font-medium'><Link to={'/profile'}>Profile</Link></li>
+        <li className='px-[15px] py-[1px] font-medium'><Link to={'/createPost'}>Create Post</Link></li>
       </ul>
     </div>
   )
