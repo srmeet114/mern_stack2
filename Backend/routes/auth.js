@@ -4,6 +4,10 @@ const mongoose = require("mongoose");
 const USER = mongoose.model("USER");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const dotenv = require('dotenv');
+const requireLogin = require("../middlewares/requireLogin");
+dotenv.config();
+const tokens = process.env.jwtSecret;
 
 router.get("/", (req, res) => {
   res.send({ message: "Hello World!" });
@@ -36,6 +40,11 @@ router.post("/signup", (req, res) => {
   })
 });
 
+router.get("/createPost",requireLogin,(req,res)=>{
+  console.log("hiii");
+  
+})
+
 router.post("/signin",(req,res)=>{
     const {email,password}=req.body;
     if(!email || !password){
@@ -47,7 +56,8 @@ router.post("/signin",(req,res)=>{
         }
         bcrypt.compare(password,savedUser.password).then(doMatch=>{
             if(doMatch){
-                return res.status(200).json({message:"Successfully signed in"})
+              const token = jwt.sign({_id:savedUser._id},tokens)
+              res.status(200).json({token,message:"Successfully signed in"})
             }
             else{
                 return res.status(422).json({error:"Invalid password"})
