@@ -10,6 +10,7 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  links:[{type:ObjectId,ref:"USER"}],
   postedBy: {
     type: ObjectId,
     ref: "USER",

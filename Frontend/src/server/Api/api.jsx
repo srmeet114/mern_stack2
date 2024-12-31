@@ -104,6 +104,5 @@ export const GetProfie = async (setGetMypost) =>{
     setGetMypost(res.data);
   } catch (err) {
     console.log(err);
-    
   }
 }
