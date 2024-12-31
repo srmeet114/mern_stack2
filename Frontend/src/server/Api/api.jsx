@@ -94,3 +94,16 @@ export const GetPosts = async (setGpostsdata) => {
     console.error(err);
   }
 }
+
+// GetProfie Data
+
+export const GetProfie = async (setGetMypost) =>{
+  try{
+    const res = await axios.get(`${URL}/mypost`);
+    console.log(res.data);
+    setGetMypost(res.data);
+  } catch (err) {
+    console.log(err);
+    
+  }
+}

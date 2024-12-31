@@ -1,6 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { GetProfie } from '../server/Api/api'
 
 const Profie = () => {
+
+  useEffect(()=>{
+    GetProfieData()
+  },[])
+
+  const [GetMypost, setGetMypost] = useState([])
+
+  const GetProfieData = () =>{
+    GetProfie(setGetMypost)
+  }
+
   return (
     <div className='pt-16 flex justify-center '>
       <div className="max-w-[600px] h-max border rounded-lg">
