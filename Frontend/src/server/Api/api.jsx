@@ -59,6 +59,7 @@ export const postSignInData = async (
     const res = await axios.post(`${URL}/signin`, data);
     notify(res.data.message);
     localStorage.setItem("jwt", res.data.token);
+    localStorage.setItem("user", JSON.stringify(res.data.user));
     reset();
     setUserLogin(true)
     navigate("/");
@@ -100,8 +101,52 @@ export const GetPosts = async (setGpostsdata) => {
 export const GetProfie = async (setGetMypost) =>{
   try{
     const res = await axios.get(`${URL}/mypost`);
-    console.log(res.data);
     setGetMypost(res.data);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+// post like
+export const likePost = (id,Gpostsdata,setGpostsdata) => {
+  try {
+    axios.put(`http://localhost:5000/like`,{ postId: id }).then((res) => {
+      console.log(res);
+
+      const result = res.data; 
+      const newdata= Gpostsdata.map((posts)=>{
+        if(posts._id == result._id){
+          return result;
+        }else{
+          return posts;
+        }
+      })
+      setGpostsdata(newdata);
+      }).catch((err) => {
+      console.error(err.response?.data || err.message);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export const unlikePost = async (id,Gpostsdata,setGpostsdata) => {
+  try {
+    axios.put(`http://localhost:5000/unlike`,{ postId: id }).then((res) => {
+      console.log(res);
+      
+      const result = res.data; 
+      const newdata= Gpostsdata.map((posts)=>{
+        if(posts._id == result._id){
+          return result;
+        }else{
+          return posts;
+        }
+      })
+      setGpostsdata(newdata);
+      }).catch((err) => {
+      console.error(err.response?.data || err.message);
+    });
   } catch (err) {
     console.log(err);
   }

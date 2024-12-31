@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { FcLike } from "react-icons/fc";
 import { MdMood } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { GetPosts } from "../server/Api/api";
+import { GetPosts, likePost, unlikePost } from "../server/Api/api";
+import { CiHeart } from "react-icons/ci";
+import axios from "axios";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -23,11 +25,23 @@ const Home = () => {
     GetPosts(setGpostsdata);
   };
 
+  const likesPost = (id) => {
+    likePost(id,Gpostsdata,setGpostsdata)
+  };
+  
+  
+  const unlinkPost = (id) => {
+    unlikePost(id,Gpostsdata,setGpostsdata)
+  };
+
   return (
     <div className="pt-16 flex flex-col items-center">
       {Gpostsdata.map((e, index) => {
         return (
-          <div key={index} className="max-w-[500px] h-max border rounded-lg my-3">
+          <div
+            key={index}
+            className="max-w-[500px] h-max border rounded-lg my-3"
+          >
             <div className="flex items-center">
               <div className="">
                 <img
@@ -39,14 +53,14 @@ const Home = () => {
               <p className="text-lg p-[11px]">{e.postedBy.name}</p>
             </div>
             <div className="w-full">
-              <img
-                src={e.photo}
-                alt=""
-              />
+              <img src={e.photo} alt="" />
             </div>
             <div className="line-[4px] px-[10px] py-[3px] border-b border-[rgb(173,173,173)]">
-              <FcLike />
-              <p>1 like</p>
+              {
+                e.likes.includes(JSON.parse(localStorage.getItem("user"))._id)
+                ? (<FcLike onClick={() => {unlinkPost(e._id);}}className="text-xl"/>) : (<CiHeart onClick={() => { likesPost(e._id)}} className="text-xl"/>)
+              }
+              <p>{e.likes.length} like</p>
               <p>{e.body}</p>
             </div>
             <div className="flex justify-between items-center">

@@ -43,4 +43,34 @@ router.get("/mypost",requireLogin,(req,res)=>{
     
 })
 
+router.put("/like", requireLogin, async (req, res) => {
+    try {
+      const result = await POST.findByIdAndUpdate(req.body.postId,{
+          $push: { likes: req.user._id },
+        },
+        { new: true }
+      );
+      res.json(result);
+    } catch (err) {
+      console.error(err);
+      res.status(422).json({ error: err.message });
+    }
+  });
+  
+
+  router.put("/unlike", requireLogin, async (req, res) => {
+    try {
+      const result = await POST.findByIdAndUpdate(req.body.postId,{
+          $pull: { likes: req.user._id },
+        },
+        { new: true }
+      );
+      res.json(result);
+    } catch (err) {
+      console.error(err);
+      res.status(422).json({ error: err.message });
+    }
+  });
+  
+
 module.exports = router;

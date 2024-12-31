@@ -26,11 +26,6 @@ mongoose.connection.on('error', () => {
     console.log('not connected to MongoDB');
 })
 
-
-app.get('/', (req, res) => {
-    res.send({ message: 'Hello World!' });
-})
-
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
