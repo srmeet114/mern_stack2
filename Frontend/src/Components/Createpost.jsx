@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { toast } from "react-toastify";
+import { postShareapi } from "../server/Api/api";
+import { useNavigate } from "react-router-dom";
 
 const CreatePost = () => {
   const [body, setBody] = useState("");
   const [image, setImage] = useState(null);
   const [url, setUrl] = useState("");
+  const notify = (message) => toast.success(message);
+  const notifyerr = (message) => toast.error(message);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (url) {
@@ -32,19 +37,9 @@ const CreatePost = () => {
       .catch((err) => console.error("Error uploading image:", err));
   };
 
-  const postShare = async () => {
-    try {
-      const response = await axios.post("http://localhost:5000/createPost", {
-        body,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        pic: url,
-      });
-      console.log("Post created successfully:", response.data);
-    } catch (err) {
-      console.error("Error creating post:", err);
-    }
+  const postShare = () => {
+    const output = document.getElementById("output");
+    postShareapi(body,url,setBody, setImage, setUrl,output,notify,notifyerr,navigate)
   };
 
   const loadFile = (event) => {
@@ -65,7 +60,10 @@ const CreatePost = () => {
         {/* Header */}
         <div className="post-header flex justify-between items-center px-[10px]">
           <p className="text-xl mx-4 font-semibold">Create New Post</p>
-          <button onClick={uploadImage} className="text-[#339ce3] font-semibold">
+          <button
+            onClick={uploadImage}
+            className="text-[#339ce3] font-semibold"
+          >
             Share
           </button>
         </div>
@@ -102,7 +100,7 @@ const CreatePost = () => {
           <textarea
             value={body}
             onChange={(e) => setBody(e.target.value)}
-            className="w-[90%] mx-3"
+            className="w-[90%] mx-3 p-2"
             type="text"
             placeholder="Write a caption..."
           ></textarea>

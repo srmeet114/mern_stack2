@@ -31,7 +31,7 @@ router.post("/signup", (req, res) => {
           });
         
           user.save().then((user) => { // Saving the user to the database
-              res.json({ message: "User Saved Successfully" });
+              res.status(200).json({ message: "User Saved Successfully" });
             }).catch((err) => {
               console.log(err);
             }); 

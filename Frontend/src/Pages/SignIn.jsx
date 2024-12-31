@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import logo from "../../public/Img/logo.png";
 import { Link , useNavigate} from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { postSignInData } from "../server/Api/api";
 import { toast } from "react-toastify";
+import { LoginContext } from "../context/loginContext";
 
 const SignIn = () => {
   const {
@@ -13,12 +14,13 @@ const SignIn = () => {
     reset,
   } = useForm();
 
+  const {setUserLogin} = useContext(LoginContext);
   const navigate = useNavigate();
   const notify = (message) => toast.success(message);
   const notifyerr = (message) => toast.error(message);
 
   const onSubmit = (data) => {
-    postSignInData(data, reset, notify ,notifyerr ,navigate);
+    postSignInData(data, reset, notify ,notifyerr ,navigate,setUserLogin);
   };
 
   return (
