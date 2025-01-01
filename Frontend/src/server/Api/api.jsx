@@ -150,10 +150,21 @@ export const unlikePost = (id,Gpostsdata,setGpostsdata) => {
 }
 
 // post comment
-export const postComment = async (text,id) =>{
+export const postComment = async (text,id,setcomment,Gpostsdata,setGpostsdata) =>{
   try {
       await axios.put(`${URL}/comment`,{ text:text,postId: id }).then((res) => {
         
+        console.log("🚀 ~ awaitaxios.put ~ res:", res)
+        setcomment("")
+        const result = res.data; 
+      const newdata= Gpostsdata.map((posts)=>{
+        if(posts._id == result._id){
+          return result;
+        }else{
+          return posts;
+        }
+      })
+      setGpostsdata(newdata);
       }).catch((err) => {
       console.error(err.response?.data || err.message);
     });

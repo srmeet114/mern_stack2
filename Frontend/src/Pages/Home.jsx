@@ -19,11 +19,10 @@ const Home = () => {
   const [comment, setcomment] = useState("");
   const [OpneComment, setOpneComment] = useState(false);
   const [itemsData, setitemsData] = useState([]);
-  console.log(itemsData);
 
   const OpnetComment = (e) => {
     setOpneComment(true);
-    setitemsData(e);
+    setitemsData(e)
   };
 
   const ClosetComment = () => {
@@ -47,8 +46,7 @@ const Home = () => {
   };
 
   const makeComment = (text, id) => {
-    console.log(comment);
-    postComment(text, id);
+    postComment(text, id,setcomment,Gpostsdata,setGpostsdata);
   };
 
   return (
@@ -141,11 +139,11 @@ const Home = () => {
                 </div>
                 <p className="text-lg p-[11px]">lalo</p>
               </div>
-              <div className="comment-section flex-grow-[4]">
+              <div className="comment-section flex-grow-[4] h-10 overflow-y-auto">
                 {itemsData.comments.map((e, index) => {
                   return (
                     <p key={index} className="comm p-3">
-                      <span className="commenter font-bold">{itemsData.postedBy.name} </span>
+                      <span className="commenter font-bold">{e.postedBy.name} </span>
                       <span className="commenttext">{e.comment}</span>
                     </p>
                   );
@@ -167,7 +165,7 @@ const Home = () => {
                   />
                 </div>
                 <button
-                  onClick={() => makeComment(comment, e._id)}
+                  onClick={() => {makeComment(comment, itemsData._id),ClosetComment()}}
                   className="font-medium px-3 text-[#63afe3]"
                 >
                   Post
