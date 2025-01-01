@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FcLike } from "react-icons/fc";
 import { MdMood } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GetPosts, likePost, postComment, unlikePost } from "../server/Api/api";
 import { CiHeart } from "react-icons/ci";
 import { IoCloseSharp } from "react-icons/io5";
@@ -68,7 +68,10 @@ const Home = () => {
                   alt=""
                 />
               </div>
-              <p className="text-lg p-[11px]">{e.postedBy.name}</p>
+              <p className="text-lg p-[11px]">
+                
+                <Link to={`profile/${e.postedBy._id}`}>{e.postedBy.name}</Link>
+              </p>
             </div>
             <div className="w-full">
               <img src={e.photo} alt="" />

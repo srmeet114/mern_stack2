@@ -10,6 +10,7 @@ import Createpost from "./Components/Createpost";
 import { ToastContainer } from "react-toastify";
 import { LoginContext } from "./context/loginContext";
 import LogoutModal from "./Modal/LogoutModal";
+import UserProfile from "./Components/UserProfile";
 
 function App() {
 
@@ -24,8 +25,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
-          <Route path="/profile" element={<Profie />} />
+          <Route exact path="/profile" element={<Profie />} />
           <Route path="/createPost" element={<Createpost />} />
+          <Route path="/profile/:_id" element={<UserProfile />} />
         </Routes>
         <ToastContainer theme="dark" />
         {modalOpne && <LogoutModal/>}

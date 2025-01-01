@@ -189,3 +189,15 @@ export const DeletePost = async (_id,notify,notifyerr,navigate,ClosetComment) =>
     ClosetComment()
   }
 }
+
+// Get userProfile data
+export const ProfileData = async (_id,setUser,setPosts) =>{
+  try {
+    const res = await axios.get(`${URL}/user/${_id}`);
+    console.log(res.data);
+    setUser(res.data.user);
+    setPosts(res.data.post);
+  } catch (err) {
+    console.log(err);
+  }
+}
