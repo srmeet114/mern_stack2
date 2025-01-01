@@ -56,7 +56,6 @@ router.put("/like", requireLogin, async (req, res) => {
       res.status(422).json({ error: err.message });
     }
   });
-  
 
   router.put("/unlike", requireLogin, async (req, res) => {
     try {
@@ -71,6 +70,24 @@ router.put("/like", requireLogin, async (req, res) => {
       res.status(422).json({ error: err.message });
     }
   });
+
+  router.put("/comment",requireLogin, async (req,res)=>{
+    try {
+      const comment = {
+        comment:req.body.text,
+        postedBy:req.user._id
+      }
+      const result = await POST.findByIdAndUpdate(req.body.postId,{
+        $push:{comments:comment}
+      },{
+        new:true
+      }).populate("comments.postedBy","_id name")
+      res.json(result);
+    } catch (err) {
+      console.error(err);
+      res.status(422).json({ error: err.message });
+    }
+  })
   
 
 module.exports = router;

@@ -24,7 +24,7 @@ const Profie = () => {
             />
           </div>
           <div className="flex flex-col justify-around">
-            <h2 className="text-4xl font-semibold text-center">John Doe</h2>
+            <h2 className="text-4xl font-semibold text-center">{JSON.parse(localStorage.getItem("user")).name}</h2>
             <div className="flex">
               <p>40 posts</p>
               <p>100 followers</p>

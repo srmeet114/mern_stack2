@@ -110,9 +110,7 @@ export const GetProfie = async (setGetMypost) =>{
 // post like
 export const likePost = (id,Gpostsdata,setGpostsdata) => {
   try {
-    axios.put(`http://localhost:5000/like`,{ postId: id }).then((res) => {
-      console.log(res);
-
+    axios.put(`${URL}/like`,{ postId: id }).then((res) => {
       const result = res.data; 
       const newdata= Gpostsdata.map((posts)=>{
         if(posts._id == result._id){
@@ -130,11 +128,10 @@ export const likePost = (id,Gpostsdata,setGpostsdata) => {
   }
 }
 
-export const unlikePost = async (id,Gpostsdata,setGpostsdata) => {
+// post unlike
+export const unlikePost = (id,Gpostsdata,setGpostsdata) => {
   try {
-    axios.put(`http://localhost:5000/unlike`,{ postId: id }).then((res) => {
-      console.log(res);
-      
+    axios.put(`${URL}/unlike`,{ postId: id }).then((res) => {
       const result = res.data; 
       const newdata= Gpostsdata.map((posts)=>{
         if(posts._id == result._id){
@@ -144,6 +141,19 @@ export const unlikePost = async (id,Gpostsdata,setGpostsdata) => {
         }
       })
       setGpostsdata(newdata);
+      }).catch((err) => {
+      console.error(err.response?.data || err.message);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+// post comment
+export const postComment = async (text,id) =>{
+  try {
+      await axios.put(`${URL}/comment`,{ text:text,postId: id }).then((res) => {
+        
       }).catch((err) => {
       console.error(err.response?.data || err.message);
     });
