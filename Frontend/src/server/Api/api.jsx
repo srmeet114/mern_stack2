@@ -90,6 +90,7 @@ export const postShareapi = async (body, url, setBody, setImage, setUrl,output,n
 export const GetPosts = async (setGpostsdata) => {
   try {
     const res = await axios.get(`${URL}/allposts`);
+    console.log(res.data);
     setGpostsdata(res.data.posts);
   } catch (err) {
     console.error(err);
@@ -102,6 +103,7 @@ export const GetProfie = async (setGetMypost) =>{
   try{
     const res = await axios.get(`${URL}/mypost`);
     setGetMypost(res.data);
+    console.log("🚀 ~ GetProfie ~ res:", res)
   } catch (err) {
     console.log(err);
   }
@@ -150,11 +152,10 @@ export const unlikePost = (id,Gpostsdata,setGpostsdata) => {
 }
 
 // post comment
-export const postComment = async (text,id,setcomment,Gpostsdata,setGpostsdata) =>{
+export const postComment = async (text,id,setcomment,Gpostsdata,setGpostsdata,notify,notifyerr) =>{
   try {
       await axios.put(`${URL}/comment`,{ text:text,postId: id }).then((res) => {
-        
-        console.log("🚀 ~ awaitaxios.put ~ res:", res)
+        notify("Commented Send Successfully");
         setcomment("")
         const result = res.data; 
       const newdata= Gpostsdata.map((posts)=>{
@@ -167,8 +168,24 @@ export const postComment = async (text,id,setcomment,Gpostsdata,setGpostsdata) =
       setGpostsdata(newdata);
       }).catch((err) => {
       console.error(err.response?.data || err.message);
+      notifyerr(err.response?.data || err.message)
     });
   } catch (err) {
     console.log(err);
+  }
+}
+
+// post delete
+export const DeletePost = async (_id,notify,notifyerr,navigate,ClosetComment) =>{
+  try {
+    const res = await axios.delete(`${URL}/deletePost/${_id}`);
+    notify(res.data.message);
+    console.log(res.data);
+    ClosetComment();
+    navigate("/")
+  } catch (err) {
+    console.log(err);
+    notifyerr(err.response.data.error);
+    ClosetComment()
   }
 }

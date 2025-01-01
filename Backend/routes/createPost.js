@@ -43,6 +43,7 @@ router.post("/createPost", requireLogin, (req, res) => {
 router.get("/mypost", requireLogin, (req, res) => {
   POST.find({ postedBy: req.user._id })
     .populate("postedBy", "_id name")
+    .populate("comments.postedBy", "_id name")
     .then((mypost) => {
       res.json(mypost);
     });
@@ -116,5 +117,26 @@ router.put("/comment", requireLogin, async (req, res) => {
     res.status(422).json({ error: err.message });
   }
 });
+
+router.delete("/deletePost/:_id",requireLogin,async(req,res)=>{
+  try{
+    const post = await POST.findOne({_id:req.params._id}).populate("postedBy","_id")
+    if (!post) {
+      return res.status(422).json({ error: "Post not found" });
+    }
+    console.log(post.postedBy._id.toString(), req.user._id.toString());
+    
+    if (post.postedBy._id.toString() === req.user._id.toString()) {
+      await POST.deleteOne({ _id: req.params._id });
+      return res.status(200).json({ message: "Post deleted successfully" });
+    } else {
+      return res.status(403).json({ error: "Unauthorized to delete this post" });
+    }
+    
+  } catch (err){
+    console.log(err);
+    res.status(422).json({ error: err.message });
+  }
+})
 
 module.exports = router;

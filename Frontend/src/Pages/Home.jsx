@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { GetPosts, likePost, postComment, unlikePost } from "../server/Api/api";
 import { CiHeart } from "react-icons/ci";
 import { IoCloseSharp } from "react-icons/io5";
+import { toast } from "react-toastify";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -15,6 +16,8 @@ const Home = () => {
     }
   }, []);
 
+  const notify = (message) => toast.success(message);
+  const notifyerr = (message) => toast.error(message);
   const [Gpostsdata, setGpostsdata] = useState([]);
   const [comment, setcomment] = useState("");
   const [OpneComment, setOpneComment] = useState(false);
@@ -22,7 +25,7 @@ const Home = () => {
 
   const OpnetComment = (e) => {
     setOpneComment(true);
-    setitemsData(e)
+    setitemsData(e);
   };
 
   const ClosetComment = () => {
@@ -46,7 +49,7 @@ const Home = () => {
   };
 
   const makeComment = (text, id) => {
-    postComment(text, id,setcomment,Gpostsdata,setGpostsdata);
+    postComment(text, id, setcomment, Gpostsdata, setGpostsdata,notify,notifyerr);
   };
 
   return (
@@ -143,7 +146,9 @@ const Home = () => {
                 {itemsData.comments.map((e, index) => {
                   return (
                     <p key={index} className="comm p-3">
-                      <span className="commenter font-bold">{e.postedBy.name} </span>
+                      <span className="commenter font-bold">
+                        {e.postedBy.name}{" "}
+                      </span>
                       <span className="commenttext">{e.comment}</span>
                     </p>
                   );
@@ -165,7 +170,9 @@ const Home = () => {
                   />
                 </div>
                 <button
-                  onClick={() => {makeComment(comment, itemsData._id),ClosetComment()}}
+                  onClick={() => {
+                    makeComment(comment, itemsData._id), ClosetComment();
+                  }}
                   className="font-medium px-3 text-[#63afe3]"
                 >
                   Post

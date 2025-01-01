@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { GetProfie } from "../server/Api/api";
+import PostDetail from "../Components/PostDetail";
 
 const Profie = () => {
   useEffect(() => {
@@ -7,6 +8,17 @@ const Profie = () => {
   }, []);
 
   const [GetMypost, setGetMypost] = useState([]);
+  const [sow, setsow] = useState(false);
+  const [post, setpost] = useState([]);
+
+  const OpnePostDetails = (e) => {
+    setsow(true);
+    setpost(e);
+  };
+
+  const ClosePostDetails = () =>{
+    setsow(false);
+  }
 
   const GetProfieData = () => {
     GetProfie(setGetMypost);
@@ -24,7 +36,9 @@ const Profie = () => {
             />
           </div>
           <div className="flex flex-col justify-around">
-            <h2 className="text-4xl font-semibold text-center">{JSON.parse(localStorage.getItem("user")).name}</h2>
+            <h2 className="text-4xl font-semibold text-center">
+              {JSON.parse(localStorage.getItem("user")).name}
+            </h2>
             <div className="flex">
               <p>40 posts</p>
               <p>100 followers</p>
@@ -37,6 +51,7 @@ const Profie = () => {
           {GetMypost.map((e, index) => {
             return (
               <img
+                onClick={() => OpnePostDetails(e)}
                 key={index}
                 className="w-[30%] p-[10px]"
                 src={e.photo}
@@ -46,6 +61,7 @@ const Profie = () => {
           })}
         </div>
       </div>
+      {sow && <PostDetail itemsData={post} ClosetComment={ClosePostDetails}/>}
     </div>
   );
 };
