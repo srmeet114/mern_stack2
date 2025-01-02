@@ -57,7 +57,7 @@ router.put("/like", requireLogin, async (req, res) => {
         $push: { likes: req.user._id },
       },
       { new: true }
-    );
+    ).populate("postedBy", "_id name")
     res.json(result);
   } catch (err) {
     console.error(err);
@@ -73,7 +73,7 @@ router.put("/unlike", requireLogin, async (req, res) => {
         $pull: { likes: req.user._id },
       },
       { new: true }
-    );
+    ).populate("postedBy", "_id name")
     res.json(result);
   } catch (err) {
     console.error(err);
@@ -134,6 +134,22 @@ router.delete("/deletePost/:_id",requireLogin,async(req,res)=>{
     }
     
   } catch (err){
+    console.log(err);
+    res.status(422).json({ error: err.message });
+  }
+})
+
+// to show following user post
+
+router.get("/myfollwingpost",requireLogin,(req,res)=>{
+  try{
+    POST.find({postedBy:{$in:req.user.following}})
+    .populate("postedBy","_id name")
+    .populate("comments.postedBy","_id name")
+    .then(posts=>{
+      res.status(200).json(posts)
+    })
+  } catch(err){
     console.log(err);
     res.status(422).json({ error: err.message });
   }

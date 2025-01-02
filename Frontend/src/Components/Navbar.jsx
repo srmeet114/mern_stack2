@@ -15,6 +15,9 @@ const Navbar = ({ login }) => {
         <li key="createPost" className="px-[15px] py-[1px] font-medium">
           <Link to={"/createPost"}>Create Post</Link>
         </li>,
+        <li key="followingpost" className="px-[15px] py-[1px] font-medium">
+          <Link to={"/followingpost"}>My Following</Link>
+        </li>,
         <li key="" className="px-[15px] py-[1px] font-medium">
         <Link to={""}>
         <button onClick={()=>setmodalOpne(true)} className="bg-[#db183c] px-4 py-2 text-white rounded-lg active:bg-[#c71f2f]">

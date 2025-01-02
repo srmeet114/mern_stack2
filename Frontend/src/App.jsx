@@ -6,11 +6,12 @@ import Home from "./Pages/Home";
 import SignUp from "./Pages/SignUp";
 import SignIn from "./Pages/SignIn";
 import Profie from "./Pages/Profie";
-import Createpost from "./Components/Createpost";
+import Createpost from "./Pages/Createpost";
 import { ToastContainer } from "react-toastify";
 import { LoginContext } from "./context/loginContext";
 import LogoutModal from "./Modal/LogoutModal";
 import UserProfile from "./Components/UserProfile";
+import MyFollowing from "./Components/MyFollowing";
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
           <Route exact path="/profile" element={<Profie />} />
           <Route path="/createPost" element={<Createpost />} />
           <Route path="/profile/:_id" element={<UserProfile />} />
+          <Route path="/followingpost" element={<MyFollowing />} />
         </Routes>
         <ToastContainer theme="dark" />
         {modalOpne && <LogoutModal/>}
