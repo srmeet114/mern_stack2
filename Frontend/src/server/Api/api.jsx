@@ -191,12 +191,39 @@ export const DeletePost = async (_id,notify,notifyerr,navigate,ClosetComment) =>
 }
 
 // Get userProfile data
-export const ProfileData = async (_id,setUser,setPosts) =>{
+export const ProfileData = async (_id,setUser,setPosts,setisFollow) =>{
   try {
     const res = await axios.get(`${URL}/user/${_id}`);
     console.log(res.data);
     setUser(res.data.user);
     setPosts(res.data.post);
+    if(res.data.user.followers.includes(JSON.parse(localStorage.getItem("user"))._id)){
+      setisFollow(true)
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+// Follow user
+
+export const FollowUser = async (_id,setisFollow) =>{
+  try {
+    const res = await axios.put(`${URL}/follow`, { followId: _id });
+    console.log(res);
+    setisFollow(true)
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+// Follow user
+
+export const UnFollowUser = async (_id,setisFollow) =>{
+  try {
+    const res = await axios.put(`${URL}/unfollow`, { followId: _id });
+    console.log(res);
+    setisFollow(false)
   } catch (err) {
     console.log(err);
   }

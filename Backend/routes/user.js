@@ -5,6 +5,7 @@ const requireLogin = require("../middlewares/requireLogin");
 const POST = mongoose.model("POST");
 const USER = mongoose.model("USER");
 
+// get user profile
 router.get("/user/:_id", requireLogin, async (req, res) => {
   try {
     const user = await USER.findOne({ _id: req.params._id }).select("-password")
@@ -20,5 +21,56 @@ router.get("/user/:_id", requireLogin, async (req, res) => {
     return res.status(404).json({ error: "User not found" });
   }
 });
+
+// to folloe user
+router.put("/follow",requireLogin,async (req,res)=>{
+  try{
+      const followUser = await USER.findByIdAndUpdate(req.body.followId,{
+      $push:{followers:req.user._id}
+    },{
+      new:true
+    })
+    if(!followUser){
+      return res.status(422).json({error:"User to follow not found"})
+    }
+    const UpdateUser = await USER.findByIdAndUpdate(
+      req.user._id, 
+      { $push: { following: req.body.followId } },
+      { new: true }
+    );
+    if (!UpdateUser) {
+      return res.status(404).json({ error: "Current user not found" });
+    } else{
+      res.json({ message: "Followed successfully", UpdateUser });
+    }
+  }catch(err){
+    console.log(err)
+  }
+})
+
+router.put("/unfollow",requireLogin,async (req,res)=>{
+  try{
+      const followUser = await USER.findByIdAndUpdate(req.body.followId,{
+      $pull:{followers:req.user._id}
+    },{
+      new:true
+    })
+    if(!followUser){
+      return res.status(422).json({error:"User to follow not found"})
+    }
+    const UpdateUser = await USER.findByIdAndUpdate(
+      req.user._id, 
+      { $pull: { following: req.body.followId } },
+      { new: true }
+    );
+    if (!UpdateUser) {
+      return res.status(404).json({ error: "Current user not found" });
+    } else{
+      res.json({ message: "UnFollowed successfully", UpdateUser });
+    }
+  }catch(err){
+    console.log(err)
+  }
+})
 
 module.exports = router;

@@ -1,29 +1,42 @@
 import React, { useEffect, useState } from "react";
-import { ProfileData } from "../server/Api/api";
+import { FollowUser, ProfileData, UnFollowUser } from "../server/Api/api";
 import { useParams } from "react-router-dom";
 
 const UserProfile = () => {
+  const { _id } = useParams();
+  const [isFollow, setisFollow] = useState(false)
+  useEffect(() => {
+    GetProfieData();
+  }, [isFollow]);
 
-    const {_id} = useParams();
-    useEffect(() => {
-        GetProfieData();
-      }, []);
-    
-      const [GetMypost, setGetMypost] = useState([]);
-      const [user, setUser] = useState([])
-      const [posts, setPosts] = useState([])
-    
-      const OpnePostDetails = (e) => {
-        setsow(true);
-      };
-    
-      const ClosePostDetails = () =>{
-        setsow(false);
-      }
-    
-      const GetProfieData = () => {
-        ProfileData(_id,setUser,setPosts);
-      };
+  const [user, setUser] = useState([]);
+  const [posts, setPosts] = useState([]);
+console.log(user);
+
+  const OpnePostDetails = (e) => {
+    setsow(true);
+  };
+
+  const ClosePostDetails = () => {
+    setsow(false);
+  };
+
+  const GetProfieData = () => {
+    ProfileData(_id, setUser, setPosts,setisFollow);
+  };
+
+  // Follow user
+
+  const FollowUsers = (_id) => {
+    FollowUser(_id,setisFollow);
+  };
+
+  // unFollow user
+
+  const UnFollowUsers = (_id) => {
+    UnFollowUser(_id,setisFollow);
+  };
+
   return (
     <div className="pt-16 flex justify-center ">
       <div className="max-w-[600px] h-max border rounded-lg">
@@ -36,13 +49,20 @@ const UserProfile = () => {
             />
           </div>
           <div className="flex flex-col justify-around">
-            <h2 className="text-4xl font-semibold text-center">
-              {user.name}
-            </h2>
+            <div className="flex justify-between items-center">
+              <h2 className="text-4xl font-semibold text-center">
+                {user.name}
+              </h2>
+              <button 
+              onClick={()=> {if(isFollow){UnFollowUsers(user._id)}else{FollowUsers(user._id)}}}
+              className="bg-[#0115ed] text-white px-4 py-1 rounded-lg ease-in duration-200 hover:scale-[1.2] hover:shadow-xl active:scale-[1]">
+                {isFollow ? "Unfollow" : "Follow"}
+              </button>
+            </div>
             <div className="flex">
               <p className="px-2 font-medium">{posts.length} posts</p>
-              <p className="px-2 font-medium">100 followers</p>
-              <p className="px-2 font-medium">100 following</p>
+              <p className="px-2 font-medium">{user.followers ? user.followers.length:"0"} followers</p>
+              <p className="px-2 font-medium">{user.followimg ? user.followimg.length:"0"} following</p>
             </div>
           </div>
         </div>
@@ -63,7 +83,7 @@ const UserProfile = () => {
       </div>
       {/* {sow && <PostDetail itemsData={post} ClosetComment={ClosePostDetails}/>} */}
     </div>
-  )
-}
+  );
+};
 
-export default UserProfile
+export default UserProfile;
