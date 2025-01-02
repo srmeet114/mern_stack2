@@ -39,7 +39,7 @@ const Navbar = ({ login }) => {
   };
 
   return (
-    <div className="flex fixed w-full justify-around py-[10px]">
+    <div className="flex fixed w-full justify-around py-[10px] shadow-lg bg_bolar">
       <Link to={"/"}>
         <img
           className="w-[15%] object-contain max-[500px]:w-[20%]"

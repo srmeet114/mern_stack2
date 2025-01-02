@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import React, { createContext, useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import Navbar from "./Components/Navbar";
 import Home from "./Pages/Home";
@@ -11,7 +11,7 @@ import { ToastContainer } from "react-toastify";
 import { LoginContext } from "./context/loginContext";
 import LogoutModal from "./Modal/LogoutModal";
 import UserProfile from "./Components/UserProfile";
-import MyFollowing from "./Components/MyFollowing";
+import MyFollowing from "./Pages/MyFollowing";
 
 function App() {
 

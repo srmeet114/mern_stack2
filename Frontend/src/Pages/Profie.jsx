@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { GetProfie } from "../server/Api/api";
 import PostDetail from "../Components/PostDetail";
+import ProfilePic from "../Modal/ProfilePic";
 
 const Profie = () => {
+
+  const userimg = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+
   useEffect(() => {
     GetProfieData();
   }, []);
 
-  const [GetMypost, setGetMypost] = useState([]);
   const [sow, setsow] = useState(false);
   const [post, setpost] = useState([]);
+  const [user, setuser] = useState("")
+  const [changePic, setchangePic] = useState(false)
 
   const OpnePostDetails = (e) => {
     setsow(true);
@@ -20,18 +25,27 @@ const Profie = () => {
     setsow(false);
   }
 
+  const ChnageProfileOpne = () =>{
+    setchangePic(true)
+  }
+  
+  const ChnageProfileClose = () =>{
+    setchangePic(false)
+  }
+
   const GetProfieData = () => {
-    GetProfie(setGetMypost);
+    GetProfie(setpost,setuser,ChnageProfileClose);
   };
 
   return (
     <div className="pt-16 flex justify-center ">
       <div className="max-w-[600px] h-max border rounded-lg">
-        <div className="flex justify-evenly">
+        <div className="flex justify-around p-5">
           <div className="h-fit">
             <img
-              className="w-[160px] h-[160px] object-contain rounded-full"
-              src="https://images.unsplash.com/photo-1692261853713-4d283f65a6ee?q=80&w=1974auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              onClick={ChnageProfileOpne}
+              className="w-[160px] h-[160px] object-contain rounded-full "
+              src={user.Photo ? user.Photo : userimg}
               alt=""
             />
           </div>
@@ -40,15 +54,15 @@ const Profie = () => {
               {JSON.parse(localStorage.getItem("user")).name}
             </h2>
             <div className="flex">
-              <p>40 posts</p>
-              <p>100 followers</p>
-              <p>100 following</p>
+              <p className="px-2 font-medium">{post ? post.length:"0"} posts</p>
+              <p className="px-2 font-medium">{user.followers? user.followers.length:"0"} followers</p>
+              <p className="px-2 font-medium">{user.following? user.following.length:"0"} following</p>
             </div>
           </div>
         </div>
-        <hr className="w-[90%] m-[auto] opacity-[0.8]  my-[25px] mx-[auto]" />
+        <hr className="w-[90%] m-[auto] opacity-[0.8]  my-[15px] mx-[auto]" />
         <div className="gallery flex flex-wrap">
-          {GetMypost.map((e, index) => {
+          {post.map((e, index) => {
             return (
               <img
                 onClick={() => OpnePostDetails(e)}
@@ -62,6 +76,7 @@ const Profie = () => {
         </div>
       </div>
       {sow && <PostDetail itemsData={post} ClosetComment={ClosePostDetails}/>}
+      {changePic && <ProfilePic close={ChnageProfileClose}/>}
     </div>
   );
 };

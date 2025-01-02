@@ -8,6 +8,9 @@ import { IoCloseSharp } from "react-icons/io5";
 import { toast } from "react-toastify";
 
 const Home = () => {
+
+  const userimg = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+
   const navigate = useNavigate();
   useEffect(() => {
     const tokeen = localStorage.getItem("jwt");
@@ -63,8 +66,8 @@ const Home = () => {
             <div className="flex items-center">
               <div className="">
                 <img
-                  className="rounded-full w-[30px] h-[auto] p-[5px] object-contain"
-                  src="https://images.unsplash.com/photo-1692261853713-4d283f65a6ee?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  className="rounded-full w-[30px] h-[auto] m-[5px] object-contain"
+                  src={e.postedBy.Photo ? e.postedBy.Photo : userimg}
                   alt=""
                 />
               </div>

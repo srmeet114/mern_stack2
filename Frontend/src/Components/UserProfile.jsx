@@ -3,6 +3,9 @@ import { FollowUser, ProfileData, UnFollowUser } from "../server/Api/api";
 import { useParams } from "react-router-dom";
 
 const UserProfile = () => {
+
+  const userimg = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+  
   const { _id } = useParams();
   const [isFollow, setisFollow] = useState(false)
   useEffect(() => {
@@ -44,7 +47,7 @@ console.log(user);
           <div className="h-fit">
             <img
               className="w-[160px] h-[160px] object-contain rounded-full"
-              src="https://images.unsplash.com/photo-1692261853713-4d283f65a6ee?q=80&w=1974auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src={user.Photo ? user.Photo : userimg}
               alt=""
             />
           </div>

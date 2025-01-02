@@ -6,7 +6,8 @@ const POST = mongoose.model("POST");
 
 router.get("/allposts", requireLogin, (req, res) => {
   POST.find()
-    .populate("postedBy", "_id name")
+    .populate("postedBy", "_id name Photo")
+    .sort("-createdAt")
     .then((posts) => {
       res.json({ posts });
     })
@@ -44,6 +45,7 @@ router.get("/mypost", requireLogin, (req, res) => {
   POST.find({ postedBy: req.user._id })
     .populate("postedBy", "_id name")
     .populate("comments.postedBy", "_id name")
+    .sort("-createdAt")
     .then((mypost) => {
       res.json(mypost);
     });
@@ -57,7 +59,7 @@ router.put("/like", requireLogin, async (req, res) => {
         $push: { likes: req.user._id },
       },
       { new: true }
-    ).populate("postedBy", "_id name")
+    ).populate("postedBy", "_id name Photo")
     res.json(result);
   } catch (err) {
     console.error(err);
@@ -73,7 +75,7 @@ router.put("/unlike", requireLogin, async (req, res) => {
         $pull: { likes: req.user._id },
       },
       { new: true }
-    ).populate("postedBy", "_id name")
+    ).populate("postedBy", "_id name Photo")
     res.json(result);
   } catch (err) {
     console.error(err);

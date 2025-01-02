@@ -110,11 +110,12 @@ export const GetPosts = async (setGpostsdata) => {
 
 // GetProfie Data
 
-export const GetProfie = async (setGetMypost) => {
+export const GetProfie = async (setpost,setuser) => {
   try {
-    const res = await axios.get(`${URL}/mypost`);
-    setGetMypost(res.data);
-    console.log("🚀 ~ GetProfie ~ res:", res);
+    const res = await axios.get(`${URL}/user/${JSON.parse(localStorage.getItem("user"))._id}`);
+    console.log(res.data);
+    setpost(res.data.post)
+    setuser(res.data.user)
   } catch (err) {
     console.log(err);
   }
@@ -272,9 +273,24 @@ export const UnFollowUser = async (_id, setisFollow) => {
 export const GetFollowingPost = async (setGpostsdata) => {
   try {
     const res = await axios.get(`${URL}/myfollwingpost`);
-    console.log(res.data);
     setGpostsdata(res.data);
   } catch (err) {
     console.log(err);
   }
 };
+
+export const postPic = async (url,close) => {
+  console.log(url);
+  
+  try {
+    const res = await axios.put(`${URL}/uploadProfilePic`, { pic: url });
+    console.log(res);
+    // setImage(null);
+    // setUrl("");
+    close();
+    window.location.reload();
+  } catch (err) {
+    console.log(err);
+  }
+  
+}

@@ -22,7 +22,6 @@ const CreatePost = () => {
       console.error("No image selected");
       return;
     }
-
     const data = new FormData();
     data.append("file", image);
     data.append("upload_preset", "insta-clone");
